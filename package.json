@@ -1,8 +1,23 @@
 {
-    "name": "sss-bot",
-    "version": "1.0.0",
-    "description": "Shitty Secret Santa",
-    "main": "bot.js",
-    "author": "Your Name",
-    "dependencies": {}
+  "name": "sss-bot",
+  "version": "1.0.0",
+  "description": "Shitty Secret Santa",
+  "main": "bot.js",
+  "author": "Your Name",
+  "dependencies": {
+    "discord.js": "github:discordjs/discord.js"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "try-build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FizzesShark/4FunDBot.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FizzesShark/4FunDBot/issues"
+  },
+  "homepage": "https://github.com/FizzesShark/4FunDBot#readme"
 }
