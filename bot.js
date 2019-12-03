@@ -20,13 +20,26 @@ client.on('message', msg => {
 	if (!msg.content.startsWith(`${prefix}`) || msg.author.bot) return;
 
 	const args = msg.content.slice(prefix.length).split(/ +/);
-	const cmd = args.shift().toLowerCase();
+	const cmdName = args.shift().toLowerCase();
 
-	if (!client.commands.has(cmd)) return;
+	if (!client.commands.has(cmdName)) return;
+
+	const cmd = client.commands.get(cmdName);
+
+	if (cmd.args && !args.length) {
+		let reply = `No arguments provided, ${msg.author}`;
+
+		if (cmd.usage) {
+			reply += `\n Proper usage would be as follows: '${prefix}${cmd.name} ${cmd.usage}'`;
+		}
+
+		return msg.channel.send(reply);
+	}
 
 	try {
-		client.commands.get(cmd).execute(msg, args);
-	} catch (error) {
+		cmd.execute(msg, args);
+	}
+	catch (error) {
 		console.error(error);
 		msg.reply('An error occurred!');
 	}
