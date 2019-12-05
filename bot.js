@@ -17,8 +17,14 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-	if (!msg.content.startsWith(`${prefix}`) || msg.author.bot) return;
-
+	if (!msg.content.startsWith(`${prefix}`) || msg.author.bot) {
+		if (msg.mentions.everyone) {
+			return msg.channel.send('What the fuck. Did you really ping me at this time for that? You did. \nArrangements have been made so that I will no longer be directly pinged from you. If you need me, contact somebody else.');
+		}
+		if (msg.mentions.has(client.user)) {
+			return msg.channel.send('What the fuck. Did you really ping me at this time for that? You did. \nArrangements have been made so that I will no longer be directly pinged from you. If you need me, contact somebody else.');
+		}
+	}
 	const args = msg.content.slice(prefix.length).split(/ +/);
 	const cmdName = args.shift().toLowerCase();
 
@@ -37,7 +43,8 @@ client.on('message', msg => {
 	}
 
 	try {
-		cmd.execute(msg, args);
+		if (cmd.args) cmd.execute(msg, args);
+		else cmd.execute(msg);
 	}
 	catch (error) {
 		console.error(error);

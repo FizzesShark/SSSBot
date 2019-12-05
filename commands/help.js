@@ -6,9 +6,8 @@ module.exports = {
 	usage: '[command name]',
 	execute(msg, args) {
 		const data = [];
-		const { cmds } = msg.client;
+		const cmds = msg.client.commands;
 		// Bug: msg.client doesn't exist
-		msg.channel.send(`${msg.createdAt}`);
 
 		if (!args.length) {
 			data.push('Here\'s a list of all my commands:');
