@@ -3,6 +3,7 @@ const { prefix } = require('../config.json');
 module.exports = {
 	name: 'help',
 	description: 'List of all bot commands.',
+	args: true,
 	usage: '[command name]',
 	execute(msg, args) {
 		const data = [];

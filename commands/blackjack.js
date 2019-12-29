@@ -1,5 +1,5 @@
 const fs = require('fs');
-const bjF = fs.readdirSync('./blackjackF').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands/blackjack').filter(file => file.endsWith('.js'));
 
 module.exports = {
 	name: 'blackjack',
