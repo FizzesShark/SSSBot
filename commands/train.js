@@ -1,18 +1,12 @@
 const Markov = require('../markov.js');
 
-const m = new Markov(2);
-let trained = false;
-
 module.exports = {
 	name: 'train',
 	description: 'Construct a Chain based on the channel',
 	usage: '<send-in-desired-channel>',
-	trained,
-	m,
-	execute(msg) {
+	async execute(msg) {
 		const channel = msg.channel;
-		const arr = fetch(channel);
-		return arr;
+		return await fetch(channel);
 	}
 };
 
@@ -39,7 +33,8 @@ function getAll(channel, arr, latest) {
 	//	If there are no more messages to get, train a Chain with all previous messages
 	if (arr.length % 100 !== 0 && arr.length !== 1) {
 		console.log('Training complete!');
-		return arr;
+		console.log(arr.length);
+		return train(arr);
 	}
 
 	//	Fetches 100 messages at a time, if possible
@@ -50,4 +45,13 @@ function getAll(channel, arr, latest) {
 		}
 		getAll(channel, arr, arr[arr.length - 1].id);
 	});
+}
+
+function train(arr) {
+	const m = new Markov(2);
+	for (const message of arr) {
+		m.trainSentence(message.content);
+	}
+	console.log(m.start);
+	return m;
 }
