@@ -1,18 +1,18 @@
-const Global = require('../globals.js');
+const Markov = require('../markov.js');
+
+const m = new Markov(2);
+let trained = false;
 
 module.exports = {
 	name: 'train',
 	description: 'Construct a Chain based on the channel',
 	usage: '<send-in-desired-channel>',
+	trained,
+	m,
 	execute(msg) {
 		const channel = msg.channel;
 		const arr = fetch(channel);
-
-		for (const message in arr) {
-			Global.m.trainSentence(message.content);
-		}
-
-		Global.trained = true;
+		return arr;
 	}
 };
 
@@ -44,7 +44,7 @@ function getAll(channel, arr, latest) {
 
 	//	Fetches 100 messages at a time, if possible
 	channel.messages.fetch({ before: latest, limit: 100 }).then(messages => {
-		for (const [key, value] of messages.filter(m => !m.author.bot)) {
+		for (const [key, value] of messages.filter(message => !message.author.bot)) {
 			arr.push(value);
 			console.log(key);
 		}

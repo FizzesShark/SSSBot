@@ -1,10 +1,12 @@
 const Discord = require('discord.js');
+const Markov = require('../markov.js');
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
 
 const { token, prefix } = require('./config.json');
 const fs = require('fs');
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const m = new Markov(2);
 
 for (const file of commandFiles) {
 	const command = require(`./commands/${file}`);
@@ -29,6 +31,18 @@ client.on('message', msg => {
 	const cmdName = args.shift().toLowerCase();
 
 	if (!client.commands.has(cmdName)) return;
+
+	if (cmdName === 'train') {
+		const arr = client.commands.get(cmdName).execute(msg);
+		for (const obj in arr) {
+			m.trainSentence(obj.content);
+		}
+		return;
+	}
+
+	if (cmdName === 'say') {
+		client.commands.get(cmdName).execute(msg, m);
+	}
 
 	const cmd = client.commands.get(cmdName);
 
