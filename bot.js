@@ -6,6 +6,7 @@ const { token, prefix } = require('./config.json');
 const fs = require('fs');
 let m;
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+console.log(commandFiles);
 let trained = false;
 
 for (const file of commandFiles) {
